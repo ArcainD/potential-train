@@ -27,8 +27,9 @@ class Yauser:
             else:
                 print(response.json()['message'])
 
-        except Exception as e:
-            print(e)
+        except Exception:
+            print('Возникла ошибка при создании папки на Я.Диске'
+                  'Повторите попытку позже')
 
     def _info_file(self, url):
         with open('copied photos.json', 'w') as f:
@@ -57,5 +58,7 @@ class Yauser:
                 requests.post(url, headers=self.headers, params=params)
                 counter += 1
                 print(f'{counter} из {len_list}')
-            except Exception as e:
-                print(e)
+            except Exception:
+                print('Ошибка соединения с сервером Я.Диска.'
+                      'Проверте подключение к интернету '
+                      'или повторите попытку позже')

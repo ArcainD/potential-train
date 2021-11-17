@@ -41,8 +41,10 @@ class Vkuser:
                 print(f'Ошибка {response.status_code}')
                 return None
 
-        except Exception as e:
-            print(e)
+        except Exception:
+            print('Ошибка соединения с сервером ВКонтакте.'
+                  'Проверте подключение к интернету '
+                  'или повторите попытку позже')
 
     def get_biggest_photo_list(self, id):
         biggest_photo_list = []
