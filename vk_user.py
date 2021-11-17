@@ -17,26 +17,33 @@ class Vkuser:
             'album_id': 'profile',
             'extended': '1'
         }
-        response = requests.get(
-            get_photos_url, params={**self.params, **photos_get_params}
-        )
 
-        if response.status_code == 200:
-            response = response.json()
+        try:
+            response = requests.get(
+                get_photos_url, params={**self.params, **photos_get_params}
+            )
 
-            if 'error' in response:
-                print(response['error']['error_msg'])
+            # ======================================
+            if response.status_code == 200:
+                response = response.json()
+
+                if 'error' in response:
+                    print(response['error']['error_msg'])
+                    return None
+                elif response['response']['count'] == 0:
+                    print('\nФотографий в профиле нет\n')
+                    return None
+                elif response['response']['count'] >= 1:
+                    res = response['response']['count']
+                    print(f'\nФотографий найдено: {res}\n')
+                    return response['response']['items']
+
+            else:
+                print(f'Ошибка {response.status_code}')
                 return None
-            elif response['response']['count'] == 0:
-                print('\nФотографий в профиле нет\n')
-                return None
-            elif response['response']['count'] >= 1:
-                print('\nФотографии найдены\n')
-                return response['response']['items']
 
-        else:
-            print(f'Ошибка {response.status_code}')
-            return None
+        except Exception as e:
+            print(e)
 
     def get_biggest_photo_list(self, id):
         biggest_photo_list = []

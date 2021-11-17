@@ -16,15 +16,19 @@ class Yauser:
         print('Создаю папку...')
         url = 'https://cloud-api.yandex.net/v1/disk/resources/'
         params = {'path': 'reserve vk photos'}
-        response = requests.put(url, headers=self.headers, params=params)
+        try:
+            response = requests.put(url, headers=self.headers, params=params)
 
-        if response.status_code == 201:
-            print('Успешно')
-        elif response.status_code == 409:
-            print('Папка с таким именем уже существует. '
-                  'Запись будет произведена в неё.')
-        else:
-            print(response.json()['message'])
+            if response.status_code == 201:
+                print('Успешно')
+            elif response.status_code == 409:
+                print('Папка с таким именем уже существует. '
+                      'Запись будет произведена в неё.')
+            else:
+                print(response.json()['message'])
+
+        except Exception as e:
+            print(e)
 
     def _info_file(self, url):
         with open('copied photos.json', 'w') as f:
@@ -35,6 +39,7 @@ class Yauser:
         url = self.url + 'upload'
         counter = 0
         len_list = len(biggest_photo_list)
+        print('Копирую...')
 
         for i in biggest_photo_list:
             likes = i['max_size_like']
@@ -48,6 +53,9 @@ class Yauser:
                 'path': f'reserve vk photos/{upload_time},\n {likes} лайков',
                 'url': f'{photo_url}'
             }
-            requests.post(url, headers=self.headers, params=params)
-            counter += 1
-            print(f'{counter} из {len_list}')
+            try:
+                requests.post(url, headers=self.headers, params=params)
+                counter += 1
+                print(f'{counter} из {len_list}')
+            except Exception as e:
+                print(f'error 3, {e}')
