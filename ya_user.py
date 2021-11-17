@@ -58,4 +58,4 @@ class Yauser:
                 counter += 1
                 print(f'{counter} из {len_list}')
             except Exception as e:
-                print(f'error 3, {e}')
+                print(e)
