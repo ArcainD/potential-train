@@ -23,7 +23,6 @@ class Vkuser:
                 get_photos_url, params={**self.params, **photos_get_params}
             )
 
-            # ======================================
             if response.status_code == 200:
                 response = response.json()
 
